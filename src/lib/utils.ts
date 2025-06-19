@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import type { ProjectConfig } from '@custom-types/config';
+import type { ProjectConfig } from '../types/config';
 import kleur from 'kleur';
 
 const { cyan, green, red, yellow } = kleur;

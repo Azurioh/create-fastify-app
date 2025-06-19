@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { createProject } from '@libs/create-project';
-import { collectUserInput } from '@libs/prompt';
+import { createProject } from './lib/create-project';
+import { collectUserInput } from './lib/prompt';
 import kleur from 'kleur';
 
 const { cyan, yellow, red } = kleur;

@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import type { Architecture, ProjectConfig, ProjectType, PromptQuestion, TemplateChoice } from '@custom-types/config';
+import type { Architecture, ProjectConfig, ProjectType, PromptQuestion, TemplateChoice } from '../types/config';
 
 export const ARCHITECTURE_CHOICES: TemplateChoice[] = [
   {

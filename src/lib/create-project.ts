@@ -1,4 +1,4 @@
-import type { ProjectConfig, TemplateVars } from '@custom-types/config';
+import type { ProjectConfig, TemplateVars } from '../types/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { copyTemplate } from './copy-template';
