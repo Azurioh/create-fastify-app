@@ -2,11 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { TemplateVars } from '@custom-types/config';
 
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 export async function copyTemplate(templatePath: string, targetDir: string, templateVars: TemplateVars): Promise<void> {
   const templateDir = path.join(__dirname, '..', '..', 'templates', templatePath);
 
