@@ -1,0 +1,42 @@
+{
+  "name": "create-fastify-app",
+  "version": "1.0.0",
+  "description": "Package to setup a fastify repository",
+  "main": "./dist/index.js",
+  "bin": {
+    "create-fastify-app": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js"
+  },
+  "keywords": ["fastify", "create-fastify-app", "fastify-app", "fastify-app-generator"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azurioh/create-fastify-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Azurioh/create-fastify-app/issues"
+  },
+  "homepage": "https://github.com/Azurioh/create-fastify-app#readme",
+  "files": ["dist", "templates"],
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "kleur": "^4.1.5",
+    "minimist": "^1.2.8",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^24.0.3",
+    "@types/prompts": "^2.4.9",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
