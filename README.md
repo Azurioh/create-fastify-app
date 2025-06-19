@@ -33,13 +33,13 @@ The tool enables developers to quickly bootstrap new Fastify applications with a
 
 ```bash
 # Using npm
-npm install -g create-fastify-app
+npm install -g @azurioh/create-fastify-app
 
 # Using yarn
-yarn global add create-fastify-app
+yarn global add @azurioh/create-fastify-app
 
 # Using pnpm
-pnpm add -g create-fastify-app
+pnpm add -g @azurioh/create-fastify-app
 ```
 
 ### Quick Start

@@ -1,5 +1,5 @@
 {
-  "name": "create-fastify-app",
+  "name": "@azurioh/create-fastify-app",
   "version": "1.0.0",
   "description": "Package to setup a fastify repository",
   "main": "./dist/index.js",
@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/Azurioh/create-fastify-app.git"
   },
-  "author": "",
+  "author": "Azurioh",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
