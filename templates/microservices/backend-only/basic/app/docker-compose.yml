@@ -1,0 +1,25 @@
+x-service-template: &service-template
+  restart: no
+  environment:
+    - NODE_ENV=${NODE_ENV}
+    - API_BASE_URL=${API_BASE_URL}
+    - PORT=${PORT}
+  volumes:
+    - ./packages:/_build/packages
+    - ./app/nodemon.json:/_build/app/nodemon.json
+
+services:
+
+  health:
+    <<: *service-template
+    container_name: health-${NODE_ENV}
+    image: health-${NODE_ENV}
+    build:
+      context: ../
+      dockerfile: ./app/.docker/Dockerfile
+      args:
+        SERVICE_NAME: health
+    volumes:
+      - ./micro-services/health:/app
+    ports:
+      - 3000:${PORT}

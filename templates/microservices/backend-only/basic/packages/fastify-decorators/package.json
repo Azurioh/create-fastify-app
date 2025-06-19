@@ -1,0 +1,8 @@
+{
+  "name": "@{{PROJECT_NAME}}/fastify-decorators",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "devDependencies": {
+    "@{{PROJECT_NAME}}/shared": "*"
+  }
+}
