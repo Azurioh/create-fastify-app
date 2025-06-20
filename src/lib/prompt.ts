@@ -21,11 +21,11 @@ export const PROJECT_TYPE_CHOICES: Record<Architecture, TemplateChoice[]> = {
       value: 'backend-only',
       description: 'API server only',
     },
-    // {
-    //   title: '🌐 Full-stack',
-    //   value: 'fullstack',
-    //   description: 'Backend + Frontend in mono-repo',
-    // },
+    {
+      title: '🌐 Full-stack',
+      value: 'fullstack',
+      description: 'Backend + Frontend in mono-repo',
+    },
   ],
   microservices: [
     {
@@ -61,11 +61,11 @@ export const TEMPLATE_CHOICES: Record<Architecture, Record<ProjectType, Template
       // },
     ],
     fullstack: [
-      // {
-      //   title: '⚛️  Vite + React',
-      //   value: 'vite-react',
-      //   description: 'React + Vite frontend',
-      // },
+      {
+        title: '⚛️  Vite + React',
+        value: 'vite-react',
+        description: 'React + Vite frontend',
+      },
     ],
   },
   microservices: {

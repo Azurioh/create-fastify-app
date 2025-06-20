@@ -32,8 +32,6 @@ async function installMicroservicesDependencies(
   config: ProjectConfig,
   packageManager: string,
 ): Promise<void> {
-  const services = ['api-gateway', ...(config.services || [])];
-
   const rootPackageJson = path.join(targetDir, 'package.json');
   if (fs.existsSync(rootPackageJson)) {
     console.log(cyan('📦 Installing root dependencies...'));
@@ -41,21 +39,6 @@ async function installMicroservicesDependencies(
       cwd: targetDir,
       stdio: 'inherit',
     });
-  }
-
-  for (const service of services) {
-    const servicePath =
-      service === 'api-gateway' ? path.join(targetDir, 'api-gateway') : path.join(targetDir, 'services', service);
-
-    const servicePackageJson = path.join(servicePath, 'package.json');
-
-    if (fs.existsSync(servicePackageJson)) {
-      console.log(cyan(`📦 Installing dependencies for ${service}...`));
-      await runCommand(packageManager, ['install'], {
-        cwd: servicePath,
-        stdio: 'inherit',
-      });
-    }
   }
 
   if (config.projectType === 'fullstack') {

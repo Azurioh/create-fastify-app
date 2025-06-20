@@ -14,8 +14,6 @@ export async function copyTemplate(templatePath: string, targetDir: string, temp
   await replaceInFiles(targetDir, templateVars);
 
   await renameSpecialFiles(targetDir);
-
-  await postProcessTemplate(targetDir, templateVars);
 }
 
 async function replaceInFiles(dir: string, templateVars: TemplateVars): Promise<void> {
@@ -108,113 +106,6 @@ async function renameSpecialFiles(targetDir: string): Promise<void> {
       fs.renameSync(fromPath, toPath);
     }
   }
-}
-
-async function postProcessTemplate(targetDir: string, templateVars: TemplateVars): Promise<void> {
-  switch (templateVars.TEMPLATE) {
-    case 'with-docker':
-      await generateDockerCompose(targetDir, templateVars);
-      break;
-    case 'react-monorepo':
-    case 'vue-monorepo':
-      await setupMonorepo(targetDir, templateVars);
-      break;
-    default:
-      break;
-  }
-}
-
-async function generateDockerCompose(targetDir: string, templateVars: TemplateVars): Promise<void> {
-  if (templateVars.ARCHITECTURE !== 'microservices') return;
-
-  const services = templateVars.SERVICES;
-  const dockerCompose = {
-    version: '3.8',
-    // biome-ignore lint/suspicious/noExplicitAny:
-    services: {} as Record<string, any>,
-    networks: {
-      app_network: {
-        driver: 'bridge',
-      },
-    },
-  };
-
-  dockerCompose.services['api-gateway'] = {
-    build: './api-gateway',
-    ports: ['3000:3000'],
-    environment: {
-      NODE_ENV: 'development',
-    },
-    networks: ['app_network'],
-    depends_on: services,
-  };
-
-  services.forEach((service, index) => {
-    const port = 3001 + index;
-    dockerCompose.services[service] = {
-      build: `./services/${service}`,
-      ports: [`${port}:${port}`],
-      environment: {
-        NODE_ENV: 'development',
-        PORT: port,
-      },
-      networks: ['app_network'],
-    };
-  });
-
-  const dockerComposeContent = `# Generated Docker Compose file
-version: '3.8'
-
-services:
-${Object.entries(dockerCompose.services)
-  .map(
-    ([name, config]) => `  ${name}:
-${Object.entries(config)
-  .map(([key, value]) => {
-    if (Array.isArray(value)) {
-      return `    ${key}:\n${value.map((v) => `      - "${v}"`).join('\n')}`;
-    }
-    if (typeof value === 'object' && value !== null) {
-      return `    ${key}:\n${Object.entries(value)
-        .map(([k, v]) => `      ${k}: ${v}`)
-        .join('\n')}`;
-    }
-    return `    ${key}: ${typeof value === 'string' ? `"${value}"` : value}`;
-  })
-  .join('\n')}`,
-  )
-  .join('\n\n')}
-
-networks:
-  app_network:
-    driver: bridge
-`;
-
-  fs.writeFileSync(path.join(targetDir, 'docker-compose.yml'), dockerComposeContent);
-}
-
-async function setupMonorepo(targetDir: string, templateVars: TemplateVars): Promise<void> {
-  const workspaces = ['apps/*', 'packages/*', 'services/*'];
-
-  const rootPackageJson = {
-    name: templateVars.PROJECT_NAME,
-    version: '1.0.0',
-    description: templateVars.PROJECT_DESCRIPTION,
-    private: true,
-    workspaces,
-    scripts: {
-      'dev:all': 'concurrently "npm run dev:backend" "npm run dev:frontend"',
-      'dev:backend': 'npm run dev --workspace=api-gateway',
-      'dev:frontend': `npm run dev --workspace=${templateVars.PROJECT_NAME}-frontend`,
-      'build:all': 'npm run build --workspaces',
-      'test:all': 'npm run test --workspaces',
-    },
-    devDependencies: {
-      concurrently: '^8.2.2',
-    },
-  };
-
-  fs.writeFileSync(path.join(targetDir, 'package.json'), JSON.stringify(rootPackageJson, null, 2));
 }
 
 function getFilesRecursively(dir: string): string[] {

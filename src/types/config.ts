@@ -5,13 +5,10 @@ export interface ProjectConfig {
   architecture: Architecture;
   projectType: ProjectType;
   template: string;
-  services?: string[];
   frontendPort?: string;
   backendPort?: string;
   database?: Database;
   installDeps: boolean;
-  authorName?: string;
-  projectDescription?: string;
 }
 
 export type Architecture = 'monolith' | 'microservices';
@@ -30,12 +27,9 @@ export interface TemplateVars {
   ARCHITECTURE: Architecture;
   PROJECT_TYPE: ProjectType;
   TEMPLATE: string;
-  SERVICES: string[];
   FRONTEND_PORT: string;
   BACKEND_PORT: string;
   DATABASE: Database;
-  AUTHOR_NAME?: string;
-  PROJECT_DESCRIPTION?: string;
   [key: string]: unknown;
 }
 

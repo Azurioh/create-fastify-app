@@ -39,12 +39,9 @@ export async function createProject(config: ProjectConfig): Promise<void> {
 function buildTemplateVars(config: ProjectConfig): TemplateVars {
   return {
     PROJECT_NAME: config.projectName,
-    PROJECT_DESCRIPTION: config.projectDescription || '',
-    AUTHOR_NAME: config.authorName || '',
     ARCHITECTURE: config.architecture,
     PROJECT_TYPE: config.projectType,
     TEMPLATE: config.template,
-    SERVICES: config.services || [],
     FRONTEND_PORT: config.frontendPort || '5173',
     BACKEND_PORT: config.backendPort || '3000',
     DATABASE: config.database || 'postgresql',
@@ -59,11 +56,6 @@ function printSuccessMessage(config: ProjectConfig): void {
     console.log('   📦 Single application');
   } else {
     console.log('   🔧 Microservices architecture');
-    if (config.services) {
-      for (const service of config.services) {
-        console.log(`   └── 🛠️  ${service}`);
-      }
-    }
   }
 
   console.log(green('\n🚀 Next steps:'));
