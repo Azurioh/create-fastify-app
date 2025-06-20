@@ -1,6 +1,6 @@
 {
   "name": "@azurioh/create-fastify-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Package to setup a fastify repository",
   "main": "./dist/index.js",
   "bin": {
@@ -11,7 +11,12 @@
     "prepublishOnly": "npm run build",
     "start": "node dist/index.js"
   },
-  "keywords": ["fastify", "create-fastify-app", "fastify-app", "fastify-app-generator"],
+  "keywords": [
+    "fastify",
+    "create-fastify-app",
+    "fastify-app",
+    "fastify-app-generator"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azurioh/create-fastify-app.git"
@@ -23,7 +28,10 @@
     "url": "https://github.com/Azurioh/create-fastify-app/issues"
   },
   "homepage": "https://github.com/Azurioh/create-fastify-app#readme",
-  "files": ["dist", "templates"],
+  "files": [
+    "dist",
+    "templates"
+  ],
   "dependencies": {
     "fs-extra": "^11.3.0",
     "kleur": "^4.1.5",
