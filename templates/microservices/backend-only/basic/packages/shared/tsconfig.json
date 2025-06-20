@@ -1,5 +1,5 @@
 {
-  "include": [".", "./locales/*.json"],
+  "include": ["."],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
