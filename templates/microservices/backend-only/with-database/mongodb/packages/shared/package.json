@@ -1,0 +1,10 @@
+{
+  "name": "@{{PROJECT_NAME}}/shared",
+  "version": "1.0.0",
+  "exports": {
+    "./enums/*": "./enums/*.ts",
+    "./entities/*": "./entities/*.ts",
+    "./types/*": "./types/*.d.ts",
+    "./utils/*": "./utils/*.ts"
+  }
+}

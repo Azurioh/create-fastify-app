@@ -80,11 +80,11 @@ export const TEMPLATE_CHOICES: Record<Architecture, Record<ProjectType, Template
       //   value: 'with-auth',
       //   description: 'JWT auth included',
       // },
-      // {
-      //   title: '💾 With Database',
-      //   value: 'with-database',
-      //   description: 'Prisma + PostgreSQL',
-      // },
+      {
+        title: '💾 With Database',
+        value: 'with-database',
+        description: 'Database setup on the server',
+      },
     ],
     fullstack: [
       // {
@@ -193,11 +193,7 @@ function getConditionalQuestions(partialConfig: Partial<ProjectConfig>): PromptQ
       type: 'select',
       name: 'database',
       message: 'Choose your database:',
-      choices: [
-        { title: 'PostgreSQL', value: 'postgresql' },
-        { title: 'MySQL', value: 'mysql' },
-        { title: 'SQLite', value: 'sqlite' },
-      ],
+      choices: [{ title: 'MongoDB', value: 'mongodb' }],
     });
   }
 

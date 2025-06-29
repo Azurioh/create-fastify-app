@@ -21,7 +21,11 @@ export async function createProject(config: ProjectConfig): Promise<void> {
   console.log(magenta(`   Template: ${template}\n`));
 
   // Construire le chemin du template
-  const templatePath = path.join(architecture, projectType, template);
+  let templatePath = path.join(architecture, projectType, template);
+
+  if (config.database) {
+    templatePath = path.join(templatePath, config.database);
+  }
 
   // Variables pour le template
   const templateVars = buildTemplateVars(config);
