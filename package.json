@@ -1,6 +1,6 @@
 {
   "name": "@azurioh/create-fastify-app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Package to setup a fastify repository",
   "main": "./dist/index.js",
   "bin": {
