@@ -4,6 +4,7 @@ export interface ProjectConfig {
   projectName: string;
   architecture: Architecture;
   projectType: ProjectType;
+  backendType: BackendType;
   template: string;
   frontendPort?: string;
   backendPort?: string;
@@ -13,6 +14,7 @@ export interface ProjectConfig {
 
 export type Architecture = 'monolith' | 'microservices';
 export type ProjectType = 'backend-only' | 'fullstack';
+export type BackendType = 'basic' | 'with-auth' | 'with-database';
 export type Database = 'postgresql' | 'mysql' | 'sqlite';
 
 export interface TemplateChoice {
@@ -26,6 +28,7 @@ export interface TemplateVars {
   PROJECT_NAME: string;
   ARCHITECTURE: Architecture;
   PROJECT_TYPE: ProjectType;
+  BACKEND_TYPE: BackendType;
   TEMPLATE: string;
   FRONTEND_PORT: string;
   BACKEND_PORT: string;

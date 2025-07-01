@@ -4,24 +4,43 @@ import path from 'node:path';
 import { copyTemplate } from './copy-template';
 import { installDependencies } from './utils';
 import kleur from 'kleur';
+import prompts from 'prompts';
 
 const { cyan, green, magenta } = kleur;
 
 export async function createProject(config: ProjectConfig): Promise<void> {
-  const { projectName, architecture, projectType, template } = config;
+  const { projectName, architecture, projectType, backendType, template } = config;
   const root = path.join(process.cwd(), projectName);
 
   if (fs.existsSync(root)) {
-    throw new Error(`Directory ${root} already exists`);
+    const erase = await prompts({
+      type: 'confirm',
+      name: 'erase',
+      message: `Directory ${root} already exists. Do you want to erase it?`,
+      initial: false,
+    });
+
+    if (erase.erase) {
+      fs.rmSync(root, { recursive: true });
+    } else {
+      throw new Error(`Directory ${root} already exists`);
+    }
   }
 
   console.log(cyan(`\n📦 Creating ${projectName}...`));
   console.log(magenta(`   Architecture: ${architecture}`));
   console.log(magenta(`   Type: ${projectType}`));
+  console.log(magenta(`   Backend: ${backendType}`));
   console.log(magenta(`   Template: ${template}\n`));
 
   // Construire le chemin du template
-  let templatePath = path.join(architecture, projectType, template);
+  let templatePath = path.join(architecture, projectType);
+
+  if (config.template) {
+    templatePath = path.join(templatePath, config.template);
+  }
+
+  templatePath = path.join(templatePath, backendType);
 
   if (config.database) {
     templatePath = path.join(templatePath, config.database);
@@ -45,6 +64,7 @@ function buildTemplateVars(config: ProjectConfig): TemplateVars {
     PROJECT_NAME: config.projectName,
     ARCHITECTURE: config.architecture,
     PROJECT_TYPE: config.projectType,
+    BACKEND_TYPE: config.backendType,
     TEMPLATE: config.template,
     FRONTEND_PORT: config.frontendPort || '5173',
     BACKEND_PORT: config.backendPort || '3000',

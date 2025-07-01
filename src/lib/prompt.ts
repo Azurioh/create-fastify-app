@@ -14,6 +14,24 @@ export const ARCHITECTURE_CHOICES: TemplateChoice[] = [
   },
 ];
 
+export const BACKEND_TYPE_CHOICES: TemplateChoice[] = [
+  {
+    title: '⚡ Basic',
+    value: 'basic',
+    description: 'Simple Fastify server',
+  },
+  // {
+  //   title: '🔐 With Authentication',
+  //   value: 'with-auth',
+  //   description: 'JWT auth included',
+  // },
+  {
+    title: '💾 With Database',
+    value: 'with-database',
+    description: 'Database setup included',
+  },
+];
+
 export const PROJECT_TYPE_CHOICES: Record<Architecture, TemplateChoice[]> = {
   monolith: [
     {
@@ -33,11 +51,11 @@ export const PROJECT_TYPE_CHOICES: Record<Architecture, TemplateChoice[]> = {
       value: 'backend-only',
       description: 'Multiple API services',
     },
-    // {
-    //   title: '🌐 Full-stack',
-    //   value: 'fullstack',
-    //   description: 'Services + Frontend in mono-repo',
-    // },
+    {
+      title: '🌐 Full-stack',
+      value: 'fullstack',
+      description: 'Services + Frontend in mono-repo',
+    },
   ],
 };
 
@@ -49,16 +67,6 @@ export const TEMPLATE_CHOICES: Record<Architecture, Record<ProjectType, Template
         value: 'basic',
         description: 'Simple Fastify server',
       },
-      // {
-      //   title: '🔐 With Authentication',
-      //   value: 'with-auth',
-      //   description: 'JWT auth included',
-      // },
-      // {
-      //   title: '💾 With Database',
-      //   value: 'with-database',
-      //   description: 'Prisma + PostgreSQL',
-      // },
     ],
     fullstack: [
       {
@@ -75,23 +83,13 @@ export const TEMPLATE_CHOICES: Record<Architecture, Record<ProjectType, Template
         value: 'basic',
         description: 'Simple Fastify server',
       },
-      // {
-      //   title: '🔐 With Authentication',
-      //   value: 'with-auth',
-      //   description: 'JWT auth included',
-      // },
-      {
-        title: '💾 With Database',
-        value: 'with-database',
-        description: 'Database setup on the server',
-      },
     ],
     fullstack: [
-      // {
-      //   title: '⚛️  Vite + React',
-      //   value: 'vite-react',
-      //   description: 'React + Vite frontend',
-      // },
+      {
+        title: '⚛️  Vite + React',
+        value: 'vite-react',
+        description: 'React + Vite frontend',
+      },
     ],
   },
 };
@@ -128,10 +126,19 @@ export async function collectUserInput(): Promise<ProjectConfig | null> {
 
   if (!projectTypeResult.projectType) return null;
 
+  const backendTypeResult = await prompts({
+    type: 'select',
+    name: 'backendType',
+    message: 'Choose your backend type:',
+    choices: BACKEND_TYPE_CHOICES,
+  });
+
+  if (!backendTypeResult.backendType) return null;
+
   const templateResult = await prompts({
     type: 'select',
     name: 'template',
-    message: 'Choose your template:',
+    message: 'Choose your frontend template:',
     choices:
       TEMPLATE_CHOICES[architectureResult.architecture as Architecture][projectTypeResult.projectType as ProjectType],
   });
@@ -142,6 +149,7 @@ export async function collectUserInput(): Promise<ProjectConfig | null> {
     ...basicConfig,
     ...architectureResult,
     ...projectTypeResult,
+    ...backendTypeResult,
     ...templateResult,
   });
 
@@ -161,6 +169,7 @@ export async function collectUserInput(): Promise<ProjectConfig | null> {
     ...basicConfig,
     ...architectureResult,
     ...projectTypeResult,
+    ...backendTypeResult,
     ...templateResult,
     ...conditionalResult,
     ...installResult,
@@ -170,14 +179,12 @@ export async function collectUserInput(): Promise<ProjectConfig | null> {
 function getConditionalQuestions(partialConfig: Partial<ProjectConfig>): PromptQuestion[] {
   const questions: PromptQuestion[] = [];
 
-  if (partialConfig.architecture === 'monolith') {
-    questions.push({
-      type: 'text',
-      name: 'backendPort',
-      message: 'Backend port:',
-      initial: '3000',
-    });
-  }
+  questions.push({
+    type: 'text',
+    name: 'backendPort',
+    message: 'Backend port:',
+    initial: '3000',
+  });
 
   if (partialConfig.projectType === 'fullstack') {
     questions.push({
@@ -188,7 +195,7 @@ function getConditionalQuestions(partialConfig: Partial<ProjectConfig>): PromptQ
     });
   }
 
-  if (partialConfig.template === 'with-database') {
+  if (partialConfig.backendType === 'with-database') {
     questions.push({
       type: 'select',
       name: 'database',

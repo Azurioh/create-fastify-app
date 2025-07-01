@@ -1,0 +1,6 @@
+{
+  "name": "{{PROJECT_NAME}}-backend-health",
+  "scripts": {
+    "start": "ts-node index.ts"
+  }
+}

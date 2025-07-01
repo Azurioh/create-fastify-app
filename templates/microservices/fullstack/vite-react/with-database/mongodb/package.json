@@ -1,0 +1,13 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "version": "1.0.0",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "build": "cd apps/backend && tsc",
+    "start": "cd apps/backend && node dist/index.js",
+    "dev": "cd apps/backend && nodemon src/index.ts"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3"
+  }
+}
